@@ -18,7 +18,7 @@ public class TTAttempt : MonoBehaviour
     void Start()
     {
         m_DictationRecognizer = new DictationRecognizer();
-        m_DictationRecognizer.InitialSilenceTimeoutSeconds = 20;
+        m_DictationRecognizer.InitialSilenceTimeoutSeconds = 60;
  
 
         m_DictationRecognizer.DictationResult += (text, confidence) =>
@@ -64,6 +64,18 @@ public class TTAttempt : MonoBehaviour
             {
                 Debug.Log(lexi[1]);
                 this.gameObject.GetComponent<StrandOfFate>().history.AddFirst(lexi[1]);
+            }
+            command = "";
+        }
+        if (command.Length > 0 && command.ToUpper().StartsWith("SENTENCE"))
+        {
+            
+            String[] lexi = command.Split(' ');
+            if (lexi.Length > 1)
+            {
+                Debug.Log(lexi[1]);
+                this.gameObject.GetComponent<StrandOfFate>().history.AddFirst(command);;
+
             }
             command = "";
         }

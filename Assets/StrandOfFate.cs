@@ -6,7 +6,9 @@ public class StrandOfFate : MonoBehaviour
 {
     public LinkedList<string> history = new LinkedList<string>();
     public GameObject webMaker;
+    public GameObject lineMaker;
     public SpawnWeb w;
+    public SpawnString line;
     private int historyLen;
     private GameObject currentNode;
 
@@ -14,7 +16,7 @@ public class StrandOfFate : MonoBehaviour
     void Start()
     {
         historyLen = history.Count;
-        history.AddFirst("happy");
+        history.AddFirst("old");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -55,7 +57,20 @@ public class StrandOfFate : MonoBehaviour
                 if (currentNode != null && history.Count > 1) { currentNode.transform.SetParent(null); }
                 Destroy(w.gameObject);
            }
-            StartCoroutine(spawnCore());
+           if (line != null){
+                //Transform currentNode = w.transform.Find(w.testWord).transform.Find(history.First.Value);
+                Debug.Log("test word is " + w.testWord + " and first val is " + history.First.Value + " currentNode is " + currentNode);
+                if (currentNode != null && history.Count > 1) { currentNode.transform.SetParent(null); }
+                Destroy(line.gameObject);
+           }
+           if(history.First.Value.Split(' ').Length > 1){
+                StartCoroutine(spawnString());
+           }
+           else{
+                Debug.Log("Oh no no no");
+                StartCoroutine(spawnCore());
+           }
+            
         }   
     }
 
@@ -67,4 +82,13 @@ public class StrandOfFate : MonoBehaviour
         w.testWord = history.First.Value;
         yield return new WaitForSeconds(2);
     }
+
+    IEnumerator spawnString(){
+        GameObject web = Instantiate(webMaker);
+        line = web.GetComponent<SpawnString>();
+        line.testPhrase = history.First.Value;
+        yield return new WaitForSeconds(2);
+    }
+
+
 }

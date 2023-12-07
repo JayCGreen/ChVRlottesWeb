@@ -36,13 +36,16 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Billboarder.cs" />
      <Compile Include="Assets\SimpleAttach.cs" />
+     <Compile Include="Assets\SpawnString.cs" />
      <Compile Include="Assets\SpawnWeb.cs" />
      <Compile Include="Assets\Steer.cs" />
      <Compile Include="Assets\StrandOfFate.cs" />
      <Compile Include="Assets\TTAttempt.cs" />
      <Compile Include="Assets\TTSHopeful.cs" />
      <Compile Include="Assets\Talker.cs" />
+     <Compile Include="Assets\Wheel.cs" />
      <Compile Include="Assets\WordNode.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
@@ -614,8 +617,14 @@
     <Reference Include="Unity.XR.OpenVR.Editor">
         <HintPath>C:/Users/josep/Documents/Projects/Chvrlotte/Library/ScriptAssemblies/Unity.XR.OpenVR.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.XR.Oculus">
+        <HintPath>C:/Users/josep/Documents/Projects/Chvrlotte/Library/ScriptAssemblies/Unity.XR.Oculus.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
         <HintPath>C:/Users/josep/Documents/Projects/Chvrlotte/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.Oculus.Editor">
+        <HintPath>C:/Users/josep/Documents/Projects/Chvrlotte/Library/ScriptAssemblies/Unity.XR.Oculus.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>C:/Users/josep/Documents/Projects/Chvrlotte/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>

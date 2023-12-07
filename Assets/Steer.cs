@@ -1,12 +1,88 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Valve.VR;
 using Valve.VR.InteractionSystem;
 
-
 public class Steer : MonoBehaviour
 {
+    public Hand handR;
+    public Hand handL;
+
+    public Transform orientation;
+    Rigidbody rb;
+    private bool justGrabbed;
+    private Vector3 initPosR;
+    private Vector3 initPosL;
+    private Quaternion initRotR;
+    private Quaternion initRotL;
 
 
+    Vector3 moveDirection;
+
+    Vector3 rotateDirection;
+    Vector3 m_EulerAngleVelocity;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if((handL.currentAttachedObject != null && handL.currentAttachedObject.GetComponent<Wheel>() != null) || (handR.currentAttachedObject != null && handR.currentAttachedObject.GetComponent<Wheel>() != null)){
+            if(!justGrabbed){
+                initPosL = handL.transform.localPosition;
+                initPosR = handR.transform.localPosition;
+                initRotR = handR.transform.localRotation;
+                initRotL = handL.transform.localRotation;
+                justGrabbed = true;
+            }
+            var handRPosition = handR.transform.localRotation;
+            var handLPosition = handL.transform.localRotation;
+
+            var handRP = handR.transform.localPosition;
+            var handLP = handL.transform.localPosition;
+
+            //Forward
+            if(Math.Abs(handLPosition.x - handRPosition.x) > 0.25)
+                orientation.Rotate(new Vector3(0, (handLPosition.x - handRPosition.x)*5, 0));
+            else{
+                var delta = Vector3.forward * (handLPosition.x - initRotL.x)*0.5f;
+                if (inBounds(orientation.position + delta))
+                    orientation.Translate(delta);
+            }
+                
+            
+            //Up & Down
+            if(Math.Abs(handLP.y - initPosL.y) > 0.25 &&  Math.Abs(handRP.y - initPosR.y) > 0.25){
+                var delta = new Vector3(0, Math.Min(handLP.y - initPosL.y, handRP.y - initPosR.y)*.05f, 0);
+                if(inBounds(orientation.position + delta))
+                    orientation.Translate(delta);
+            }
+
+
+        }else{
+            justGrabbed = false;
+        }
+        
+    }
+
+    bool inBounds(Vector3 t){
+        if (t.x > 20 || t.x < -20){
+            return false;
+        }
+        if(t.y > 25 || t.y < 0){
+            return false;
+        }
+        if(t.z > 13 || t.z < -25){
+            return false;
+        }
+        return true;
+    }
 }

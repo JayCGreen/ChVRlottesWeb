@@ -5,9 +5,9 @@ using UnityEngine;
 public class SpawnWeb : MonoBehaviour
 {
     
-    public float[] rX = {-1, 1};
-    public float[] rY = {-1, 1};
-    public float[] rZ = {-1, 1};
+    private float[] rX = {-10, 10};
+    private float[] rY = {-1, 8};
+    private float[] rZ = {-10, 10};
 
     public GameObject nodeW;
     public WordNode source;
@@ -15,16 +15,19 @@ public class SpawnWeb : MonoBehaviour
     public string testWord;
     
     public TMPro.TMP_Text mytext;
-    
-    
-    
+   
 
     // Start is called before the first frame update
 
 
     void Start()
     {
-        StartCoroutine(makeWeb());
+        if (testWord != null && testWord.Length > 0){
+            Debug.Log("doewpfjij");
+            StartCoroutine(makeWeb());
+
+        }
+        
     }
 
     Vector3 spawnPoint(){
@@ -48,18 +51,18 @@ public class SpawnWeb : MonoBehaviour
 
         foreach(string word in source.syn){
             nodeW.GetComponent<WordNode>().wordString =  word;
-            GameObject synnode = Instantiate(nodeW, spawnPoint() + new Vector3(2, 0, 0), Quaternion.identity);
+            GameObject synnode = Instantiate(nodeW, spawnPoint() + new Vector3(10, 0, 0), Quaternion.identity);
             synnode.GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.green); ;
             synnode.name = word;
-            synnode.transform.SetParent(midnode.transform);
+            synnode.transform.SetParent(midnode.transform.parent);
             synnode.GetComponentInChildren<TMPro.TMP_Text>().text = synnode.GetComponent<WordNode>().wordString;
            
         }
         foreach(string word in source.ant){
             nodeW.GetComponent<WordNode>().wordString =word;
-            GameObject antnode = Instantiate(nodeW, spawnPoint() + new Vector3(-2, 0, 0), Quaternion.identity);
+            GameObject antnode = Instantiate(nodeW, spawnPoint() + new Vector3(-10, 0, 0), Quaternion.identity);
             antnode.name = word;
-            antnode.transform.SetParent(midnode.transform);
+            antnode.transform.SetParent(midnode.transform.parent);
             antnode.GetComponentInChildren<TMPro.TMP_Text>().text = antnode.GetComponent<WordNode>().wordString;
             antnode.GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.magenta);
         }
@@ -68,6 +71,8 @@ public class SpawnWeb : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+            
 
     }
 }

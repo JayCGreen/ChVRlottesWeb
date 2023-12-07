@@ -24,12 +24,19 @@ public class SimpleAttach : MonoBehaviour
 
 		if (interactable.attachedToHand == null && grabType != GrabTypes.None)
         {
+			if (transform.childCount > 1)
+				transform.GetChild(1).gameObject.SetActive(false);
 			hand.AttachObject(gameObject, grabType);
 			hand.HoverLock(interactable);
         }
 
 		else if (isGrabEnding)
         {
+			if (transform.childCount > 1){
+				transform.GetChild(1)?.gameObject.SetActive(true);
+				transform.Translate(new Vector3(0.5f, 0.5f, 0f));
+			}
+				
 			hand.DetachObject(gameObject);
 			hand.HoverUnlock(interactable);
         }

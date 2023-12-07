@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -5618797315410479885}
   - component: {fileID: -3932543668367681616}
   - component: {fileID: -4321515380733761543}
+  - component: {fileID: -8970821829279281322}
   m_Layer: 0
   m_Name: WebSpawner
   m_TagString: Untagged
@@ -45,15 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926b70e154e2d4c4ba5952ca6d316133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rX:
-  - -1
-  - 1
-  rY:
-  - -1
-  - 1
-  rZ:
-  - -1
-  - 1
   nodeW: {fileID: 900183310877010042, guid: a1392b9451359094fad132a3282b1ea6, type: 3}
   source: {fileID: 0}
   testWord: 
@@ -166,3 +158,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-8970821829279281322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719467004887615892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ecb1817c662bd49a75a15e84c296f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rX:
+  - -10
+  - 10
+  rY:
+  - -1
+  - 8
+  rZ:
+  - -10
+  - 10
+  shift: -10
+  nodeW: {fileID: 900183310877010042, guid: a1392b9451359094fad132a3282b1ea6, type: 3}
+  source: {fileID: 0}
+  testPhrase: 
+  mytext: {fileID: 0}
