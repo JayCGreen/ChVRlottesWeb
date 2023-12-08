@@ -18,7 +18,7 @@ public class TTAttempt : MonoBehaviour
     void Start()
     {
         m_DictationRecognizer = new DictationRecognizer();
-        m_DictationRecognizer.InitialSilenceTimeoutSeconds = 60;
+        m_DictationRecognizer.InitialSilenceTimeoutSeconds = 120;
  
 
         m_DictationRecognizer.DictationResult += (text, confidence) =>

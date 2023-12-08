@@ -21,15 +21,20 @@ public class Steer : MonoBehaviour
     private Quaternion initRotL;
 
 
+
     Vector3 moveDirection;
 
     Vector3 rotateDirection;
     Vector3 m_EulerAngleVelocity;
+    
+    public AudioSource buzz;
+    private float initPitch;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        initPitch = buzz.pitch;
+
     }
 
     // Update is called once per frame
@@ -51,11 +56,21 @@ public class Steer : MonoBehaviour
 
             //Forward
             if(Math.Abs(handLPosition.x - handRPosition.x) > 0.25)
-                orientation.Rotate(new Vector3(0, (handLPosition.x - handRPosition.x)*5, 0));
+            {
+                orientation.Rotate(new Vector3(0, (handLPosition.x - handRPosition.x), 0));
+                buzz.pitch = (handLPosition.x - handRPosition.x)/180 * 3;
+
+            }
+                
             else{
-                var delta = Vector3.forward * (handLPosition.x - initRotL.x)*0.5f;
+                var delta = Vector3.forward * (handLPosition.x - initRotL.x)*0.25f;
                 if (inBounds(orientation.position + delta))
+                {
+                    //viewHelper.SetActive(true);
+                    buzz.pitch = (handLPosition.x - initRotL.x)/180 * 3f;
                     orientation.Translate(delta);
+                }
+                    
             }
                 
             
@@ -63,12 +78,19 @@ public class Steer : MonoBehaviour
             if(Math.Abs(handLP.y - initPosL.y) > 0.25 &&  Math.Abs(handRP.y - initPosR.y) > 0.25){
                 var delta = new Vector3(0, Math.Min(handLP.y - initPosL.y, handRP.y - initPosR.y)*.05f, 0);
                 if(inBounds(orientation.position + delta))
-                    orientation.Translate(delta);
+                   { 
+                        buzz.pitch = (handLPosition.x - initRotL.x)/10 * 0.5f;
+                        orientation.Translate(delta);
+                   }
+
             }
 
 
         }else{
             justGrabbed = false;
+            buzz.pitch = initPitch;
+            //viewHelper.SetActive(false);
+
         }
         
     }

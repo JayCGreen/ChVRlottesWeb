@@ -29,8 +29,8 @@ void Start()
         script = script + "You can say define followed by the word and I'll find the associated fly myself and create the web. ";
         script = script + "I've gone ahead and created a web for the word Happy for you to see how it works. ";
         script = script + "Happy defining!";
-        //spoke = true;
-        //StartCoroutine(GetRequest("http://api.voicerss.org/?key=c5153d4872c7406894a483528582682c&hl=en-us&c=WAV&src=" + script));
+        spoke = true;
+        StartCoroutine(GetRequest("http://api.voicerss.org/?key=c5153d4872c7406894a483528582682c&hl=en-us&c=WAV&src=" + script));
         
     }
 

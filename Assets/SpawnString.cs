@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class SpawnString : MonoBehaviour
 {
-    
-    public float[] rX = {-10, 10};
-    public float[] rY = {-1, 8};
-    public float[] rZ = {-10, 10};
     public int shift = -10;
 
     public GameObject nodeW;
@@ -22,7 +18,6 @@ public class SpawnString : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("here slingin strings");
         if (testPhrase != null && testPhrase.Length > 0)
             StartCoroutine(makeString());
 

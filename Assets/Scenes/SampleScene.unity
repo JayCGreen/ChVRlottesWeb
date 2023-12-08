@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 454470795}
   - component: {fileID: 454470798}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Bee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2102,6 +2102,7 @@ MonoBehaviour:
   handR: {fileID: 188472614}
   handL: {fileID: 1710360547}
   orientation: {fileID: 1770880434}
+  buzz: {fileID: 454470798}
 --- !u!4 &1770880434 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9,

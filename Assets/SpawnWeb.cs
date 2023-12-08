@@ -6,7 +6,7 @@ public class SpawnWeb : MonoBehaviour
 {
     
     private float[] rX = {-10, 10};
-    private float[] rY = {-1, 8};
+    private float[] rY = {2, 8};
     private float[] rZ = {-10, 10};
 
     public GameObject nodeW;
@@ -23,9 +23,7 @@ public class SpawnWeb : MonoBehaviour
     void Start()
     {
         if (testWord != null && testWord.Length > 0){
-            Debug.Log("doewpfjij");
             StartCoroutine(makeWeb());
-
         }
         
     }
