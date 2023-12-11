@@ -33,7 +33,7 @@ public class Steer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        initPitch = buzz.pitch;
+        initPitch = 0.5f;
 
     }
 
@@ -67,7 +67,7 @@ public class Steer : MonoBehaviour
                 if (inBounds(orientation.position + delta))
                 {
                     //viewHelper.SetActive(true);
-                    buzz.pitch = (handLPosition.x - initRotL.x)/180 * 3f;
+                    buzz.pitch = 3;
                     orientation.Translate(delta);
                 }
                     
@@ -79,7 +79,7 @@ public class Steer : MonoBehaviour
                 var delta = new Vector3(0, Math.Min(handLP.y - initPosL.y, handRP.y - initPosR.y)*.05f, 0);
                 if(inBounds(orientation.position + delta))
                    { 
-                        buzz.pitch = (handLPosition.x - initRotL.x)/10 * 0.5f;
+                        buzz.pitch = 3;
                         orientation.Translate(delta);
                    }
 

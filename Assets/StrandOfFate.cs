@@ -11,12 +11,14 @@ public class StrandOfFate : MonoBehaviour
     public SpawnString line;
     private int historyLen;
     private GameObject currentNode;
+    private bool first;
 
     // Start is called before the first frame update
     void Start()
     {
         historyLen = history.Count;
         history.AddFirst("old");
+        first = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -50,6 +52,7 @@ public class StrandOfFate : MonoBehaviour
     void Update()
     {
         if (historyLen != history.Count){
+
             historyLen = history.Count;
             if (w != null){
                 //Transform currentNode = w.transform.Find(w.testWord).transform.Find(history.First.Value);
@@ -78,8 +81,10 @@ public class StrandOfFate : MonoBehaviour
     IEnumerator spawnCore(){
         
         GameObject web = Instantiate(webMaker);
+        web.GetComponent<Talker>().intro = first;
         w = web.GetComponent<SpawnWeb>();
         w.testWord = history.First.Value;
+        first = false;
         yield return new WaitForSeconds(2);
     }
 
