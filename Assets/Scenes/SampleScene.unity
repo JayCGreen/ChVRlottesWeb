@@ -193,6 +193,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainWeb
       objectReference: {fileID: 0}
+    - target: {fileID: 4519951114440733169, guid: 673dee6388aef104c8dcd6b393f49934,
+        type: 3}
+      propertyPath: w
+      value: 
+      objectReference: {fileID: 399075080}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 673dee6388aef104c8dcd6b393f49934, type: 3}
 --- !u!1 &134536609
@@ -648,6 +653,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc378a213c418f4094bd6a28fa9c3a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &399075080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399075072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 926b70e154e2d4c4ba5952ca6d316133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeW: {fileID: 900183310877010042, guid: a1392b9451359094fad132a3282b1ea6, type: 3}
+  source: {fileID: 0}
+  testWord: 
+  spun: 0
+  mytext: {fileID: 0}
 --- !u!1 &454470793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1717,6 +1739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 982e85c327625a047abcb9e5e614878a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  intro: 0
 --- !u!82 &1045920659
 AudioSource:
   m_ObjectHideFlags: 0

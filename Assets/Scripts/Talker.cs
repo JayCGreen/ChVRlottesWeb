@@ -38,6 +38,7 @@ void Start()
     void Update()
     {
         source = this.gameObject.GetComponent<AudioSource>();
+        //CHANGE FOR DATA PROTECTION
         currentWord = this.gameObject.GetComponent<SpawnWeb>().source;
         if(intro){
             spoke = true;

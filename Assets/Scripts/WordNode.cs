@@ -54,51 +54,20 @@ public class WordNode : MonoBehaviour
         public Wrap[] wrap;
     }
 
-    public class Word{
-        public string word;
-        public List<string> definition = new List<string>();
-        public List<Word> synonyms = new List<Word>();
-        public List<Word> antonyms = new List<Word>();
-        public bool test;
-
-        public Word(string word, List<string> def, List<Word> synonyms, List<Word> antonyms){
-            this.word = word;
-            this.definition = def;
-            this.synonyms = synonyms;
-            this.antonyms = antonyms;
-        }
-
-        public Word(string word, bool mode){
-            this.word = word;
-            if(mode){
-                define();
-            }
-        }
-
-        public void define()
-        {
-            definition.Add("just a random definition");
-            synonyms.Add(new Word("A synonym", false));
-            antonyms.Add(new Word("An Antonym", false));
-        }
-    }
-
     public string wordString;
 
     public List<string> defs;
     public List<string> syn;
     public List<string> ant;
 
-    public Word myWord;
-
     void Start()
     { 
-        StartCoroutine(GetRequest("https://api.dictionaryapi.dev/api/v2/entries/en/" + wordString));
-        
+        StartCoroutine(GetRequest("https://api.dictionaryapi.dev/api/v2/entries/en/" + wordString));  
     }
 
     IEnumerator GetRequest(string uri){
-        Root test = new Root();
+        //GO BACK AND CHECK THE XR REQ
+        Root wordData = new Root();
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri)){
             yield return webRequest.SendWebRequest();
             
@@ -108,10 +77,11 @@ public class WordNode : MonoBehaviour
                 yield break;
             }
 
-            //Debug.Log("{\"wrap\":" + webRequest.downloadHandler.text + "}");
-            test = JsonUtility.FromJson<Root>("{\"wrap\":" + webRequest.downloadHandler.text + "}");
+            //Grab all the word data
+            wordData = JsonUtility.FromJson<Root>("{\"wrap\":" + webRequest.downloadHandler.text + "}");
 
-            foreach (Meaning m in test.wrap[0].meanings){
+            //Get definitions, syn, and ants from the api
+            foreach (Meaning m in wordData.wrap[0].meanings){
                 //Debug.Log(test.wrap[0].meanings[0].antonyms.Count);
                 foreach(Definition def in m.definitions)
                 {
@@ -124,8 +94,6 @@ public class WordNode : MonoBehaviour
                     ant.Add(anto);
                 }
             }
-
-            myWord = new Word(test.wrap[0].word, true);
         }
     }
 }

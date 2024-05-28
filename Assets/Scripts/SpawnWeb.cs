@@ -11,35 +11,26 @@ public class SpawnWeb : MonoBehaviour
 
     public GameObject nodeW;
     public WordNode source;
-
-    public string testWord;
+    private string testWord;
+    private bool spun = false;
     
     public TMPro.TMP_Text mytext;
    
-
-    // Start is called before the first frame update
-
-
-    void Start()
-    {
-        if (testWord != null && testWord.Length > 0){
-            StartCoroutine(makeWeb());
-        }
-        
-    }
 
     Vector3 spawnPoint(){
         float x = Random.Range(rX[0], rX[1]);
         float y = Random.Range(rY[0], rY[1]);
         float z = Random.Range(rZ[0], rZ[1]);
-
         return new Vector3(x,y,z);
     }
 
-    IEnumerator makeWeb(){
+    public IEnumerator makeWeb(){
+        spun = true;
+        //Creates a node with definition, synonym and antonyms
         GameObject midnode = Instantiate(nodeW);
         midnode.transform.parent = this.transform;
         midnode.name = testWord;
+        
         source = midnode.GetComponent<WordNode>();
         source.wordString = testWord;
         mytext = midnode.GetComponentInChildren<TMPro.TMP_Text>();
@@ -47,6 +38,7 @@ public class SpawnWeb : MonoBehaviour
         mytext.alignment = TMPro.TextAlignmentOptions.TopLeft;
         yield return new WaitForSeconds(1);
 
+        //Go through the synonyms and antonyms and create nodes
         foreach(string word in source.syn){
             nodeW.GetComponent<WordNode>().wordString =  word;
             GameObject synnode = Instantiate(nodeW, spawnPoint() + new Vector3(10, 0, 0), Quaternion.identity);
@@ -64,13 +56,20 @@ public class SpawnWeb : MonoBehaviour
             antnode.GetComponentInChildren<TMPro.TMP_Text>().text = antnode.GetComponent<WordNode>().wordString;
             antnode.GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.magenta);
         }
+        
+    }
+
+    public void newNode(string newWord){
+        testWord = newWord;
+        spun = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-            
-
+        if(testWord != null && testWord.Length > 0 && !spun){
+            Debug.Log("herr");
+            StartCoroutine(makeWeb());
+        }
     }
 }
