@@ -64,11 +64,14 @@ public class SpawnWeb : MonoBehaviour
         spun = false;
     }
 
+    public string getWord(){
+        return testWord;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if(testWord != null && testWord.Length > 0 && !spun){
-            Debug.Log("herr");
             StartCoroutine(makeWeb());
         }
     }

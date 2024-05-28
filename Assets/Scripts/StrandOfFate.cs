@@ -29,7 +29,6 @@ public class StrandOfFate : MonoBehaviour
             other.gameObject.transform.position = new Vector3(0, history.Count, 7);
             currentNode = other.gameObject;
             Debug.Log("Add Size of the array now is " + history.Count);
-            
         }
         
     }
@@ -42,8 +41,7 @@ public class StrandOfFate : MonoBehaviour
             GameObject toBeDeleted = GameObject.Find(other.gameObject.GetComponent<WordNode>().wordString);
             Destroy(toBeDeleted);
             history.RemoveFirst();
-            currentNode = w.transform.Find(w.testWord).transform.Find(history.First.Value).gameObject;
-            Debug.Log("leavin");
+            currentNode = w.transform.Find(w.getWord()).transform.Find(history.First.Value).gameObject;
         }
     }
     
@@ -56,18 +54,15 @@ public class StrandOfFate : MonoBehaviour
             historyLen = history.Count;
             if (w != null){
                 //Transform currentNode = w.transform.Find(w.testWord).transform.Find(history.First.Value);
-                Debug.Log("test word is " + w.testWord + " and first val is " + history.First.Value + " currentNode is " + currentNode);
+                //Debug.Log("test word is " + w.testWord + " and first val is " + history.First.Value + " currentNode is " + currentNode);
                 if (currentNode != null && history.Count > 1) { currentNode.transform.SetParent(null); }
                 //Destroy(w.gameObject);
            }
            if (line != null){
                 //Transform currentNode = w.transform.Find(w.testWord).transform.Find(history.First.Value);
-                Debug.Log("test word is " + w.testWord + " and first val is " + history.First.Value + " currentNode is " + currentNode);
-                //if (currentNode != null && history.Count > 1) { currentNode.transform.SetParent(null); }
-                Destroy(line.gameObject);
-           }
-           if(history.First.Value.Split(' ').Length > 1){
-                StartCoroutine(spawnString());
+                //Debug.Log("test word is " + w.testWord + " and first val is " + history.First.Value + " currentNode is " + currentNode);
+                if (currentNode != null && history.Count > 1) { currentNode.transform.SetParent(null); }
+                //Destroy(line.gameObject);
            }
            else{
                 Debug.Log("Oh no no no");
@@ -76,9 +71,8 @@ public class StrandOfFate : MonoBehaviour
         }   
     }
 
-
     IEnumerator spawnCore(){
-        w.newWord(history.First.Value);
+        w.newNode(history.First.Value);
         yield return new WaitForSeconds(2);
     }
 }
