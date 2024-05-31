@@ -1,109 +1,88 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
-using Valve.VR;
 using Valve.VR.InteractionSystem;
 
 public class Steer : MonoBehaviour
 {
-    public Hand handR;
-    public Hand handL;
-
-    public Transform orientation;
-    Rigidbody rb;
-    private bool justGrabbed;
-    private Vector3 initPosR;
-    private Vector3 initPosL;
-    private Quaternion initRotR;
-    private Quaternion initRotL;
-
-
-
-    Vector3 moveDirection;
-
-    Vector3 rotateDirection;
-    Vector3 m_EulerAngleVelocity;
+    public GameObject rider;
     
-    public AudioSource buzz;
-    private float initPitch;
+    public GameObject mount;
+
+    public GameObject mountedRider;
+    public bool isSteering = false;
+    private Vector3 restPosition;
+    private Quaternion restRotation;
+    public float turnThreshold;
+    public float turnFactor;
+    public float speedFactor;
+    private float convertedSpeed;
+    private float[] speeds = {0, 1, 1.5f, 2};
+    private int currSpeed = 0;
+    private Hand grabbing;
+    public bool crash;
+
+    private int period;
 
     // Start is called before the first frame update
     void Start()
     {
-        initPitch = 0.5f;
+        convertedSpeed = speedFactor/(30);
+        period = -1;
+        restPosition = transform.localPosition;
+        restRotation = transform.localRotation;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if((handL.currentAttachedObject != null && handL.currentAttachedObject.GetComponent<Wheel>() != null) || (handR.currentAttachedObject != null && handR.currentAttachedObject.GetComponent<Wheel>() != null)){
-            if(!justGrabbed){
-                initPosL = handL.transform.localPosition;
-                initPosR = handR.transform.localPosition;
-                initRotR = handR.transform.localRotation;
-                initRotL = handL.transform.localRotation;
-                justGrabbed = true;
-            }
-            var handRPosition = handR.transform.localRotation;
-            var handLPosition = handL.transform.localRotation;
-
-            var handRP = handR.transform.localPosition;
-            var handLP = handL.transform.localPosition;
-
-            //Forward
-            if(Math.Abs(handLPosition.x - handRPosition.x) > 0.25)
-            {
-                orientation.Rotate(new Vector3(0, (handLPosition.x - handRPosition.x), 0));
-                buzz.pitch = (handLPosition.x - handRPosition.x)/180 * 3;
-
-            }
-                
-            else{
-                var delta = Vector3.forward * (handLPosition.x - initRotL.x)*0.25f;
-                if (inBounds(orientation.position + delta))
-                {
-                    //viewHelper.SetActive(true);
-                    buzz.pitch = 3;
-                    orientation.Translate(delta);
+        Debug.Log(convertedSpeed*speeds[currSpeed]);
+        period = currSpeed > 0 ? (period + 1)%10: 0;
+        if (crash)
+        {
+            Debug.Log("Crashed");
+            currSpeed = 0;
+            crash = false;
+        }
+        
+        mountedRider.transform.Translate(new Vector3(0, currSpeed > 0 ? (period <= 4 ? .05f: -.05f) : 0, convertedSpeed*speeds[currSpeed]));
+        if (isSteering){
+            //Gear Shift
+            if (transform.parent.GetComponent<Hand>()!=null){
+                    //Debug.Log("say somethin not given up on yuo");
+                    grabbing = transform.parent.GetComponent<Hand>();
+                    if(grabbing.grabGripAction.state){
+                        if(grabbing.grabPinchAction.stateDown){
+                            currSpeed = (currSpeed+1)%4;
+                        }
+                    }
+                    if(period==4){
+                        grabbing.TriggerHapticPulse(10);
+                    }
+                    //grabbing.
                 }
-                    
-            }
+            if (Math.Abs(rider.transform.rotation.eulerAngles.y) < 30){
+                //Mount and player facing the same direction, go forward or backwards
                 
-            
-            //Up & Down
-            if(Math.Abs(handLP.y - initPosL.y) > 0.25 &&  Math.Abs(handRP.y - initPosR.y) > 0.25){
-                var delta = new Vector3(0, Math.Min(handLP.y - initPosL.y, handRP.y - initPosR.y)*.05f, 0);
-                if(inBounds(orientation.position + delta))
-                   { 
-                        buzz.pitch = 3;
-                        orientation.Translate(delta);
-                   }
+            }
+            else{
+                if(Math.Abs(transform.parent.localPosition.x) > turnThreshold){
+                    if(transform.parent.transform.localPosition.x > 0 ){
+                        mountedRider.transform.Rotate(new Vector3(0 , turnFactor, 0));
+                    }
+                    else {
+                        mountedRider.transform.Rotate(new Vector3(0 , -turnFactor, 0));
+                    }
+                }
+
 
             }
-
-
-        }else{
-            justGrabbed = false;
-            buzz.pitch = initPitch;
-            //viewHelper.SetActive(false);
-
+        } else{
+            transform.SetPositionAndRotation(restPosition, restRotation);
         }
         
     }
 
-    bool inBounds(Vector3 t){
-        if (t.x > 20 || t.x < -20){
-            return false;
-        }
-        if(t.y > 25 || t.y < 0){
-            return false;
-        }
-        if(t.z > 13 || t.z < -25){
-            return false;
-        }
-        return true;
-    }
 }
